@@ -52,7 +52,7 @@ for i in range(0,1):
 
 	start_time = time.time()
 	print(astar_search(current_puzzle, current_puzzle.h))
-	elapsed_time = time.time() - start_time()
+	elapsed_time = time.time() - start_time
 	print(f'elapsed time (in seconds): {elapsed_time}')
 
 	start_time = time.time()
