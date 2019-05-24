@@ -81,7 +81,7 @@ class YPuzzle(Problem):
 		index_blank_square = self.find_blank_square(state)
 		if index_blank_square == 0 or index_blank_square == 1:
 			possible_actions = ['UP']
-		else if index_blank_square == 8:
+		elif index_blank_square == 8:
 			possible_actions = ['DOWN']
 		else:
 			possible_actions = ['UP', 'DOWN', 'LEFT', 'RIGHT']
