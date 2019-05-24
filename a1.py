@@ -3,6 +3,7 @@
 from search import *
 import random # for shuffle the tuple
 import time # for record the time
+import math # for floor function
 
 # Question 1
 def make_rand_8puzzle():
@@ -24,6 +25,24 @@ def display(state):
 			print("\n")
 
 # Question 2
+def h_manhattan(node):
+	sum = 0
+	goal = (1, 2, 3, 4, 5, 6, 7, 8, 0)
+	for i in range(1, 9):
+		distance = abs(node.state.index(i) - goal.index(i))
+		sum += distance%3 + math.floor(distance/3)
+	return sum
+
+# this function originally exists in search.py under EightPuzzle class
+def h_misplaced(node):
+	goal = (1, 2, 3, 4, 5, 6, 7, 8, 0)
+    return sum(s != g for (s, g) in zip(node.state, goal))
+
+def max_of_manhattan_misplaced(node):
+	value_manhattan = h_manhattan(node)
+	value_misplaced = h_misplaced(node)
+	return value_manhattan if value_manhattan > value_misplaced else value_misplaced
+
 list_of_puzzle = []
 for i in range(0,1):
 	print("Puzzle", i+1, "\n")
@@ -31,12 +50,20 @@ for i in range(0,1):
 	current_puzzle = list_of_puzzle[i]
 	display(current_puzzle.initial)
 
-	current_node = Node(current_puzzle.initial)
-	current_state = current_puzzle.initial
-	current_level = []
+	start_time = time.time()
+	print(astar_search(current_puzzle, current_puzzle.h))
+	elapsed_time = time.time() - start_time()
+	print(f'elapsed time (in seconds): {elapsed_time}')
 
 	start_time = time.time()
-	astar_search(current_puzzle, current_puzzle.h)
-	elapsed_time = time.time() - start_time()
-	print('elapsed time (in seconds): {elapsed_time}')
+	print(astar_search(current_puzzle, h_manhattan))
+	elapsed_time = time.time() - start_time
+	print(f'elapsed time (in seconds): {elapsed_time}')
+
+	start_time = time.time()
+	print(astar_search(current_puzzle, max_of_manhattan_misplaced))
+	elapsed_time = time.time() - start_time
+	print(f'elapsed time (in seconds): {elapsed_time}')
+
+
 
