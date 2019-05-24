@@ -126,13 +126,8 @@ class YPuzzle(Problem):
 		return state == self.goal
 
 	def check_solvability(self, state):
-		inversion = 0
-		for i in range(len(state)):
-			for j in range(i+1, len(state)):
-				if (state[i] > state[j]) and state[i] != 0 and state[j]!= 0 and state[i] != -1 and state[j] != -1:
-					inversion += 1
-
-		return inversion % 2 == 1
+		goal = (1, -1, 2, 3, 4, 5, 6, 7, 8, -1, 0, -1)
+		return bool(state.index(1) == goal.index(1)) != bool(state.index(2) == goal.index(2))
 
 def make_rand_ypuzzle():
 	solvable = False
@@ -226,16 +221,18 @@ for i in range(0,1):
 	print("Puzzle", i+1, "\n")
 	list_of_puzzle.append(make_rand_ypuzzle())
 	current_puzzle = list_of_puzzle[i]
-	#current_puzzle = YPuzzle((1, -1, 2, 4, 6, 5, 3, 0, 8, -1, 7, -1))
+	current_puzzle = YPuzzle((0, -1, 2, 1, 3, 5, 6, 4, 8, -1, 7, -1))
+	print(current_puzzle.check_solvability(current_puzzle.initial))
+	input()
 	display_ypuzzle(current_puzzle.initial)
 
-	#elapsed_time = test_mispalced_ypuzzle(current_puzzle, h_misplaced_ypuzzle)
-	#print(f'elapsed time (in seconds): {elapsed_time}')
+	elapsed_time = test_mispalced_ypuzzle(current_puzzle, h_misplaced_ypuzzle)
+	print(f'elapsed time (in seconds): {elapsed_time}')
 
 	elapsed_time = test_manhattan_ypuzzle(current_puzzle, h_manhattan_ypuzzle)
 	print(f'elapsed time (in seconds): {elapsed_time}')
 
-	#elapsed_time = test_max_of_manhattan_misplaced_ypuzzle(current_puzzle, max_of_manhattan_misplaced_ypuzzle)
-	#print(f'elapsed time (in seconds): {elapsed_time}')
+	elapsed_time = test_max_of_manhattan_misplaced_ypuzzle(current_puzzle, max_of_manhattan_misplaced_ypuzzle)
+	print(f'elapsed time (in seconds): {elapsed_time}')
 
 
