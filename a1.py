@@ -36,7 +36,7 @@ def h_manhattan(node):
 # this function originally exists in search.py under EightPuzzle class
 def h_misplaced(node):
 	goal = (1, 2, 3, 4, 5, 6, 7, 8, 0)
-    return sum(s != g for (s, g) in zip(node.state, goal))
+	return sum(s != g for (s, g) in zip(node.state, goal))
 
 def max_of_manhattan_misplaced(node):
 	value_manhattan = h_manhattan(node)
