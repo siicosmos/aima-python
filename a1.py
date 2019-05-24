@@ -38,5 +38,5 @@ for i in range(0,1):
 	start_time = time.time()
 	astar_search(current_puzzle, current_puzzle.h)
 	elapsed_time = time.time() - start_time()
-	print(f'elapsed time (in seconds): {elapsed_time}')
+	print('elapsed time (in seconds): {elapsed_time}')
 
