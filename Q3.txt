@@ -1,0 +1,75 @@
+Puzzle1
+
+elapsed time (in seconds): 0.009416818618774414
+elapsed time (in seconds): 0.011087894439697266
+elapsed time (in seconds): 0.013695001602172852
+Puzzle2
+
+elapsed time (in seconds): 0.00045680999755859375
+elapsed time (in seconds): 0.0005397796630859375
+elapsed time (in seconds): 0.0005509853363037109
+Puzzle3
+
+elapsed time (in seconds): 0.00039386749267578125
+elapsed time (in seconds): 0.000492095947265625
+elapsed time (in seconds): 0.0006756782531738281
+Puzzle4
+
+elapsed time (in seconds): 0.0023088455200195312
+elapsed time (in seconds): 0.002686023712158203
+elapsed time (in seconds): 0.0033321380615234375
+Puzzle5
+
+elapsed time (in seconds): 0.0013737678527832031
+elapsed time (in seconds): 0.0016319751739501953
+elapsed time (in seconds): 0.0018351078033447266
+Puzzle6
+
+elapsed time (in seconds): 0.00036716461181640625
+elapsed time (in seconds): 0.0004668235778808594
+elapsed time (in seconds): 0.0006639957427978516
+Puzzle7
+
+elapsed time (in seconds): 0.003108978271484375
+elapsed time (in seconds): 0.004127025604248047
+elapsed time (in seconds): 0.004917144775390625
+Puzzle8
+
+elapsed time (in seconds): 0.0011820793151855469
+elapsed time (in seconds): 0.0011241436004638672
+elapsed time (in seconds): 0.0012402534484863281
+Puzzle9
+
+elapsed time (in seconds): 0.0056209564208984375
+elapsed time (in seconds): 0.0061380863189697266
+elapsed time (in seconds): 0.008324146270751953
+Puzzle10
+
+elapsed time (in seconds): 0.01021122932434082
+elapsed time (in seconds): 0.010377883911132812
+elapsed time (in seconds): 0.013488054275512695
+Puzzle11
+
+elapsed time (in seconds): 0.004270076751708984
+elapsed time (in seconds): 0.004695892333984375
+elapsed time (in seconds): 0.0053713321685791016
+Puzzle12
+
+elapsed time (in seconds): 0.006548166275024414
+elapsed time (in seconds): 0.005741119384765625
+elapsed time (in seconds): 0.010288000106811523
+Puzzle13
+
+elapsed time (in seconds): 0.002769947052001953
+elapsed time (in seconds): 0.0038330554962158203
+elapsed time (in seconds): 0.004012107849121094
+Puzzle14
+
+elapsed time (in seconds): 0.0047397613525390625
+elapsed time (in seconds): 0.0043468475341796875
+elapsed time (in seconds): 0.005914926528930664
+Puzzle15
+
+elapsed time (in seconds): 0.0028061866760253906
+elapsed time (in seconds): 0.0034859180450439453
+elapsed time (in seconds): 0.004235029220581055

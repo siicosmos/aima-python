@@ -252,17 +252,6 @@ def breadth_first_graph_search(problem):
                 frontier.append(child)
     return None
 
-def display_ypuzzle(state):
-    for x in range(0, 12):
-        if state[x] == 0:
-            print("*", end = "  ")
-        elif state[x] == -1:
-            print("█", end = "  ")
-        else:
-            print(state[x], end = "  ")
-        if x == 2 or x == 5 or x == 8 or x == 11:
-            print("\n")
-
 
 def best_first_graph_search(problem, f):
     """Search the nodes with the lowest f scores first.
@@ -279,8 +268,6 @@ def best_first_graph_search(problem, f):
     explored = set()
     while frontier:
         node = frontier.pop()
-        print(node.action)
-        display_ypuzzle(node.state)
         if problem.goal_test(node.state):
             return node
         explored.add(node.state)

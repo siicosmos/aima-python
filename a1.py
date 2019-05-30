@@ -4,6 +4,7 @@ from search import *
 import random # for shuffle the tuple
 import time # for record the time
 import math # for floor function
+from itertools import permutations # for generate possbile permutations for Q3
 
 # Question 1
 def make_rand_8puzzle():
@@ -60,23 +61,34 @@ def test_max_of_manhattan_misplaced(puzzle, h):
 	print(astar_search(puzzle, h))
 	elapsed_time = time.time() - start_time
 	return elapsed_time
-'''
+
 list_of_puzzle = []
-for i in range(0,20):
-	print("Puzzle", i+1, "\n")
+f = open("Q2.txt", "w")
+for i in range(0,15):
+	st = "\nPuzzle"+str(i+1)+"\n"
+	print(st)
+	f.write(st)
+
 	list_of_puzzle.append(make_rand_8puzzle())
 	current_puzzle = list_of_puzzle[i]
 	display(current_puzzle.initial)
 
 	elapsed_time = test_mispalced(current_puzzle, current_puzzle.h)
-	print(f'elapsed time (in seconds): {elapsed_time}')
+	st = f'\nelapsed time (in seconds): {elapsed_time}'
+	print(st)
+	f.write(st)
 
 	elapsed_time = test_manhattan(current_puzzle, h_manhattan)
-	print(f'elapsed time (in seconds): {elapsed_time}')
+	st = f'\nelapsed time (in seconds): {elapsed_time}'
+	print(st)
+	f.write(st)
 
 	elapsed_time = test_max_of_manhattan_misplaced(current_puzzle, max_of_manhattan_misplaced)
-	print(f'elapsed time (in seconds): {elapsed_time}')
-'''
+	st = f'\nelapsed time (in seconds): {elapsed_time}'
+	print(st)
+	f.write(st)
+f.close()
+
 # Question 3
 class YPuzzle(Problem):
 	def __init__(self, initial, goal=(1, -1, 2, 3, 4, 5, 6, 7, 8, -1, 0, -1)):
@@ -125,21 +137,30 @@ class YPuzzle(Problem):
 	def goal_test(self, state):
 		return state == self.goal
 
-	def check_solvability(self, state):
-		goal = (1, -1, 2, 3, 4, 5, 6, 7, 8, -1, 0, -1)
-		return bool(state.index(1) == goal.index(1)) != bool(state.index(2) == goal.index(2))
+	def check_inversion(self, state, goal):
+		inversion = 0
+		for i in range(3,9):
+			for j in range(i+1, 9):
+				if (state[i] > state[j]) and state[i] != 0 and state[j]!= 0:
+					inversion += 1
+		return inversion % 2 == 0
 
-def make_rand_ypuzzle():
-	solvable = False
-	while not solvable:
-		init = list((0, 1, 2, 3, 4, 5, 6, 7, 8))
-		random.shuffle(init)
-		init.insert(1, -1)
-		init.insert(9, -1)
-		init.insert(11 ,-1)
-		new_puzzle = YPuzzle(tuple(init))
-		solvable = new_puzzle.check_solvability(new_puzzle.initial)
-	return new_puzzle
+	def check_solvability(self, state):
+		if state.index(1) == 0 and state.index(0) == 2 and state.index(7) == 10 and state.index(2) == 5:
+			return self.check_inversion(state, self.goal)
+		elif state.index(2) == 2 and state.index(0) == 0 and state.index(7) == 10 and state.index(1) == 3:
+			return self.check_inversion(state, self.goal)
+		if state.index(1) == 0 and state.index(2) == 2:
+			if state.index(0) == 10:
+				for i in range(3, 9):
+					if state.index(i) != i:
+						return False
+				return True
+			elif state.index(7) == 10:
+				return self.check_inversion(state, self.goal)
+			else:
+				return False
+		return False
 
 def display_ypuzzle(state):
 	for x in range(0, 12):
@@ -151,6 +172,54 @@ def display_ypuzzle(state):
 			print(state[x], end = "  ")
 		if x == 2 or x == 5 or x == 8 or x == 11:
 			print("\n")
+
+def make_rand_ypuzzle():
+	solvable = False
+	per = []
+	s = 0
+	for i in permutations((0, 1, 2, 3, 4, 5, 6, 7, 8)):
+		i = list(i)
+		i.insert(1, -1)
+		i = list(i)
+		i.insert(9, -1)
+		i = list(i)
+		i.insert(11 ,-1)
+
+		temp_puzzle = YPuzzle(tuple(i))
+		if temp_puzzle.check_solvability(temp_puzzle.initial):
+			per.append(temp_puzzle)
+	random.shuffle(per)
+
+	# while not solvable:
+	# 	version = random.randint(1,4)
+	# 	if version == 1:
+	# 		init = list((3, 4, 5, 6, 8))
+	# 		random.shuffle(init)
+	# 		init.insert(0, 1)
+	# 		init.insert(1, -1)
+	# 		init.insert(2, 0)
+	# 		init.insert(5, 2)
+	# 	elif version == 2:
+	# 		init = list((3, 4, 5, 6, 8))
+	# 		random.shuffle(init)
+	# 		init.insert(0, 0)
+	# 		init.insert(1, -1)
+	# 		init.insert(2, 2)
+	# 		init.insert(3, 1)
+	# 	else:
+	# 		init = list((0, 3, 4, 5, 6, 8))
+	# 		random.shuffle(init)
+	# 		init.insert(0, 1)
+	# 		init.insert(1, -1)
+	# 		init.insert(2, 2)
+	# 	init.insert(9, -1)
+	# 	init.insert(10, 7)
+	# 	init.insert(11 ,-1)
+	# 	new_puzzle = YPuzzle(tuple(init))
+	# 	display_ypuzzle(init)
+	# 	print("---------")
+	# 	solvable = new_puzzle.check_solvability(new_puzzle.initial)
+	return per[random.randint(0, len(per))]
 
 def h_manhattan_ypuzzle(node):
 	sum = 0
@@ -217,22 +286,31 @@ def test_max_of_manhattan_misplaced_ypuzzle(puzzle, h):
 	return elapsed_time
 
 list_of_puzzle = []
-for i in range(0,1):
-	print("Puzzle", i+1, "\n")
+f = open("Q3.txt", "w")
+for i in range(0,15):
+	st = "Puzzle"+str(i+1)+"\n"
+	print(st)
+	f.write(st)
+
 	list_of_puzzle.append(make_rand_ypuzzle())
 	current_puzzle = list_of_puzzle[i]
-	current_puzzle = YPuzzle((0, -1, 2, 1, 3, 5, 6, 4, 8, -1, 7, -1))
-	print(current_puzzle.check_solvability(current_puzzle.initial))
-	input()
 	display_ypuzzle(current_puzzle.initial)
 
 	elapsed_time = test_mispalced_ypuzzle(current_puzzle, h_misplaced_ypuzzle)
-	print(f'elapsed time (in seconds): {elapsed_time}')
+	st = f'\nelapsed time (in seconds): {elapsed_time}'
+	print(st)
+	f.write(st)
 
 	elapsed_time = test_manhattan_ypuzzle(current_puzzle, h_manhattan_ypuzzle)
-	print(f'elapsed time (in seconds): {elapsed_time}')
+	st = f'\nelapsed time (in seconds): {elapsed_time}'
+	print(st)
+	f.write(st)
 
 	elapsed_time = test_max_of_manhattan_misplaced_ypuzzle(current_puzzle, max_of_manhattan_misplaced_ypuzzle)
-	print(f'elapsed time (in seconds): {elapsed_time}')
+	st = f'\nelapsed time (in seconds): {elapsed_time}'
+	print(st)
+	f.write(st)
+f.close()
+
 
 
