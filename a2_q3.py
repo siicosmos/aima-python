@@ -4,14 +4,25 @@
 
 from csp import * # import csp module
 from a2_q1 import * # import rand_graph function
+from a2_q2 import * # import check_teams function
 from time import time # for tracking running time
 from itertools import * # for calculating possible combinations of backtracking parameters
+import csv
 
 def run_q3():
 	print("initializing...")
 	variables = [i for i in range(30)]
-	graphs = [rand_graph(30, 0.1), rand_graph(30, 0.2), rand_graph(30, 0.3),
-          rand_graph(30, 0.4), rand_graph(30, 0.5)]
+	graphs = [rand_graph(30, 0.1), rand_graph(30, 0.2), rand_graph(30, 0.3), 
+				rand_graph(30, 0.4), rand_graph(30, 0.5)]
+
+	# get all possible combinations of backtracking parameters
+	variable_ordering = [first_unassigned_variable, mrv]
+	value_ordering = [unordered_domain_values, lcv]
+	inference = [no_inference, forward_checking, mac]
+	backtraing_parameter_combinations = list(product(variable_ordering, value_ordering, inference))
+
+	# create a csv file for recording data
+	csv_file = open("a2_q3.csv", "wb")
 
 	# # for testing purpose
 	# c = ["r","g","b","y","d"]
@@ -21,72 +32,40 @@ def run_q3():
 		print("run ", run+1, ":")
 		for index in range(len(graphs)):
 			print("start solving graph [", index+1, "]", "...")
+			# for storing solutions
+			results = []
 			colored_map = MapColoringCSP(variables, graphs[index])
 			# print(colored_map.variables)
 			# print(colored_map.domains)
 			# print(colored_map.neighbors)
 			# print(colored_map.constraints)
-			
-			variable_ordering = [first_unassigned_variable, mrv]
-			value_ordering = [unordered_domain_values, lcv]
-			inference = [no_inference, forward_checking, mac]
 
-			backtracking_parameters = [combination] for combination in product(variable_ordering, value_ordering, inference)
-
-			'''
 			# solving process
-			# default
-			start_time = time()
-			result1 = backtracking_search(colored_map)
-			elapsed_time_default = time() - start_time
-			elapsed_time_fun = elapsed_time_default
+			for combination in backtraing_parameter_combinations:
+				start_time = time()
+				result = backtracking_search(colored_map, combination[0], combination[1], combination[2])
+				elapsed_time = time() - start_time
+				number_of_teams = len(set(result.values()))
+				assignment = colored_map.nassigns 
+				unassignment = len(variables) - assignment
+				colored_map.nassigns = 0
+				correctness = check_teams(graphs[index], result)
 
-			assignment = colored_map.nassigns
-			unassignment = len(result1) - colored_map.nassigns
+				results.append([number_of_teams, elapsed_time, assignment, unassignment, result, correctness])
 
-			# The default variable order, The default value order, forward checking
-			start_time = time()
-			result2 = backtracking_search(colored_map, first_unassigned_variable, unordered_domain_values, forward_checking)
-			elapsed_time_fuf = time() - start_time
-
-			# The default variable order, The default value order, Maintain arc consistency
-			start_time = time()
-			result3 = backtracking_search(colored_map, first_unassigned_variable, unordered_domain_values, mac)
-			elapsed_time_fum = time() - start_time
-			
-			# The default variable order, Least-constraining-values heuristic, no inference
-			start_time = time()
-			result4 = backtracking_search(colored_map, first_unassigned_variable, lcv, no_inference)
-			elapsed_time_fln = time() - start_time
-
-			# The default variable order, Least-constraining-values heuristic, forward checking
-			start_time = time()
-			result5 = backtracking_search(colored_map, first_unassigned_variable, lcv, forward_checking)
-			elapsed_time_flf = time() - start_time
-
-			# The default variable order, Least-constraining-values heuristic, Maintain arc consistency
-			start_time = time()
-			result6 = backtracking_search(colored_map, first_unassigned_variable, lcv, mac)
-			elapsed_time_flm = time() - start_time
-
-			# Minimum-remaining-values heuristic, Least-constraining-values heuristic, Maintain arc consistency
-			start_time = time()
-			result7 = backtracking_search(colored_map, mrv, lcv, mac)
-			elapsed_time_mlm = time() - start_time
-
-			number_of_teams = len(set(result1.values()))
-
-			print("solution of graph [", index+1, "]: ", result1)
-			print("number of teams: ", number_of_teams)
-			print("running time of all default  : ", elapsed_time_fun)
-			print("running time of fuv, udv, fc : ", elapsed_time_fuf)
-			print("running time of fuv, udv, mac: ", elapsed_time_fum)
-			print("running time of fuv, lcv, noi: ", elapsed_time_fln)
-			print("running time of fuv, lcv, fc : ", elapsed_time_flf)
-			print("running time of fuv, lcv, mac: ", elapsed_time_flm)
-			print("count of assignment times: ", assignment)
-			print("count of unassignment times: ", unassignment)
+			print("number of teams: ", results[0][0])
+			for combination in backtraing_parameter_combinations:
+				idx = backtraing_parameter_combinations.index(combination)
+				print("running time of combination ", ", ".join(func.__name__ for func in combination), ":\n", results[idx][1])
+			print("count of assignment times: ", results[0][2])
+			print("count of unassignment times: ", results[0][3])
+			print("solution of graph [", index+1, "]: ", results[0][4])
+			print("solution is", "correct" if results[0][5] else "wrong")
 			print("\n")
-			'''
+
+			# record data
+			writer = csv.writer(csv_file)
+			writer = wrirerow(["number_of_teams", "elapsed_time", "assignment", "unassignment", "result", "correctness"])
+			writer = wrirerows(results)
 
 run_q3()
