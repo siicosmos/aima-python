@@ -17,6 +17,7 @@ def rand_graph(n, p):
 			graph[i].append(j)
 		if i not in graph[j]: # check if the edge already exist
 			graph[j].append(i)
+	return graph
 	#print(graph)
 
 #rand_graph(5, 0.5)
