@@ -1,8 +1,10 @@
 ''' 
-Cmpt 310 assignment 2 question 3
+Cmpt 310 assignment 2 question 4
 Created by Liam Ling
-Date: Sun Jun 2 2019
+Date: Wed Jun 5 2019
 Description: this function will auto-generate a CSV file containing all data
+			 the same method is used to solve graph[100,0.1] ~ graph[100,0.5]
+			 since there is no significant influence on the solving time, the method is unchanged
 '''
 
 from csp import * # import csp module
@@ -12,11 +14,11 @@ from time import time # for tracking running time
 from itertools import * # for calculating possible combinations of backtracking parameters
 import csv # for generate CSV file
 
-def run_q3():
+def run_q4():
 	print("initializing...")
-	variables = [i for i in range(30)]
-	graphs = [rand_graph(30, 0.1), rand_graph(30, 0.2), rand_graph(30, 0.3), 
-				rand_graph(30, 0.4), rand_graph(30, 0.5)]
+	variables = [i for i in range(100)]
+	graphs = [rand_graph(100, 0.1), rand_graph(100, 0.2), rand_graph(100, 0.3), 
+				rand_graph(100, 0.4), rand_graph(100, 0.5)]
 
 	# get all possible combinations of backtracking parameters
 	variable_ordering = [first_unassigned_variable, mrv]
@@ -26,7 +28,7 @@ def run_q3():
 	backtracking_parameter_combinations_name = []
 
 	# create a csv file for recording data
-	csv_file = open("a2_q3.csv", "w")
+	csv_file = open("a2_q4.csv", "w")
 	writer = csv.writer(csv_file)
 
 	# # for testing purpose
@@ -40,7 +42,7 @@ def run_q3():
 
 		run_data = [0.0] * len(backtracking_parameter_combinations) # for storinng average time for each backtracking parameter combination
 		for index in range(len(graphs)):
-			graph_str = "graph [30," + str((index+1)/10) + "]"
+			graph_str = "graph [100," + str((index+1)/10) + "]"
 			print("start solving", graph_str, "...")
 			writer.writerow([graph_str])
 			# for storing solutions
@@ -98,4 +100,4 @@ def run_q3():
 	print("All data saving to the same path, file name: a2_q3.csv")
 
 # uncomment to run
-run_q3()
+run_q4()

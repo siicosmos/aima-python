@@ -1,6 +1,8 @@
-''' Cmpt 310 assignment 2 question 2
-	Created by Liam Ling
-	Date: Sun Jun 2 2019'''
+''' 
+Cmpt 310 assignment 2 question 2
+Created by Liam Ling
+Date: Sun Jun 2 2019
+'''
 
 def check_teams(graph, csp_sol):
 	if graph == {}: # return ture if the no one is no one's friend

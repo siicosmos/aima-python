@@ -1,6 +1,8 @@
-''' Cmpt 310 assignment 2 question 1 
-	Created by Liam Ling
-	Date: Web May 29 2019'''
+''' 
+Cmpt 310 assignment 2 question 1 
+Created by Liam Ling
+Date: Web May 29 2019
+'''
 
 import random # for test p
 
