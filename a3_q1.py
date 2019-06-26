@@ -6,13 +6,13 @@ Date: Mon June 24 2019
 
 import subprocess # for exexcuting commands in terminal
 from itertools import combinations, islice # for generating combinations of a subset of clause candidates
-import math # for ceil function
+import math # for ceil, sqrt function
 import csv # for saving data
 
 CNF_file_name = 'sat-test.txt'
 SAT_output_file_name = 'out.txt'
 DATA_file = 'data.csv'
-MAX_N = 100
+MAX_N = 70
 
 def add_minus_sign(string):
 	string = '-' + string
@@ -81,6 +81,7 @@ def make_queen_sat(N):
 		print('The number of queen must be less than ', MAX_N)
 	elif N < 2:
 		print('The number of queen must be larger than 2')
+	# create a txt file with N clauses with CNF form for feeding to minisat
 	with open(CNF_file_name, 'w') as sat_file:
 		clause_set = generate_clause_set(N)
 		comment = 'c ' + str(N) + '-queens problem (sat)\n'
@@ -89,34 +90,46 @@ def make_queen_sat(N):
 		sat_file.write(sat_solver_parameters)
 		for clause in clause_set:
 			sat_file.write(clause + '\n')
+	# run a external script 'minisat [CNF fi0le] [output file]'
 	sat_process = subprocess.Popen(['minisat', CNF_file_name, SAT_output_file_name], stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
 	stdout, stderr = sat_process.communicate()
+
 	nth_problem = str(N)+'-queens:'
 	cpu_time = [string for string in (stdout.decode('utf-8').split('\n')) if 'CPU' in string][0]
-	satiability = [string for string in (stdout.decode('utf-8').split('\n')) if 'SAT' in string][0]
+	satisfiability = [string for string in (stdout.decode('utf-8').split('\n')) if 'SAT' in string][0]
 	print(nth_problem)
 	print(cpu_time)
+
+	# save all the CPU time and satisfiability to a CVS file
 	with open(DATA_file, 'a') as csv_file:
 		csv_writer = csv.writer(csv_file)
-		csv_writer.writerow([nth_problem, cpu_time, satiability])
+		csv_writer.writerow([nth_problem, cpu_time, satisfiability])
 	'''if stderr != None:
 		print(stderr)'''
+	# save minisat output to output txt file
 	with open(SAT_output_file_name, 'r') as output_file:
 		result = output_file.read()
+		# call draw_queen_sat_sol() to display the result
 		draw_queen_sat_sol(result)
 
 	sat_file.close()
 	output_file.close()
 
 def draw_queen_sat_sol(sol):
-	if sol == 'UNSAT':
-		print('No solution')
+	if sol.split('\n')[0] == 'UNSAT':
+		print('No solution\n')
 	else:
-		print(sol.split('\n')[0])
+		data = sol.split('\n')[1].split(' 0')[0].split(' ')
+		side = int(math.sqrt(len(data)))
+		for i in range(side):
+			for j in range(side):
+				print('. ', end = '') if '-' in data[i*side+j] else print('Q ', end = '')
+			print()
+		print()
 
 def main():
 	with open(DATA_file, 'w') as csv_file:
-		field_names = ['N-queens Problem', 'CPU Time', 'Satiability']
+		field_names = ['N-queens Problem', 'CPU Time', 'Satisfiability']
 		csv_writer = csv.writer(csv_file)
 		csv_writer.writerow(field_names)
 	csv_file.close()
