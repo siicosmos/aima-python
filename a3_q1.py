@@ -9,10 +9,10 @@ from itertools import combinations, islice # for generating combinations of a su
 import math # for ceil, sqrt function
 import csv # for saving data
 
-CNF_file_name = 'sat-test.txt'
-SAT_output_file_name = 'out.txt'
-DATA_file = 'data.csv'
-MAX_N = 70
+CNF_file_name = 'sat-nqueen.txt'
+SAT_output_file_name = 'out-nqueen.txt'
+DATA_file = 'data-nqueen.csv'
+MAX_N = 150
 
 def add_minus_sign(string):
 	string = '-' + string
@@ -112,6 +112,7 @@ def make_queen_sat(N):
 		# call draw_queen_sat_sol() to display the result
 		draw_queen_sat_sol(result)
 
+	csv_file.close()
 	sat_file.close()
 	output_file.close()
 
@@ -135,5 +136,6 @@ def main():
 	csv_file.close()
 	for i in range(2, MAX_N+1):
 		make_queen_sat(i)
+	return 0
 
 main()
