@@ -12,7 +12,7 @@ import csv # for saving data
 CNF_file_name = 'sat-nqueen.txt'
 SAT_output_file_name = 'out-nqueen.txt'
 DATA_file = 'data-nqueen.csv'
-MAX_N = 150
+MAX_N = 155
 
 def add_minus_sign(string):
 	string = '-' + string

@@ -8,11 +8,13 @@ from itertools import combinations # for generating combinations of a subset of 
 import math # for ceil function
 import random # for testing probability
 import subprocess # for exexcuting commands in terminal
+import csv # for saving data
+import io # for writing data
 
 CNF_file_name = 'sat-ice.txt'
 SAT_output_file_name = 'out-ice.txt'
 DATA_file = 'data-ice.csv'
-n = 1000 # define the number of nodes in friendship graph
+n = 20 # define the number of nodes in friendship graph
 p = 0.0
 run = 10
 
@@ -48,7 +50,7 @@ def make_ice_breaker_sat(graph, k):
 	variables = []
 	clauses_string = ''
 	number_of_clauses = 0
-	with open(CNF_file_name, 'w') as sat_file:
+	with io.open(CNF_file_name, 'w') as sat_file:
 		# get all the constrains (edges)
 		for node, neighbors in graph.items():
 			for neighbor in neighbors:
@@ -128,19 +130,19 @@ def find_min_teams(graph):
 			break
 		else:
 			print('UNSATISFIABLE')
-	with open(DATA_file, 'a') as csv_file:
+	with io.open(DATA_file, 'a') as csv_file:
 		csv_writer = csv.writer(csv_file)
 		csv_writer.writerow([p, k, cpu_time, satisfiability])
 	csv_file.close()
 
 def main():
-	with open(DATA_file, 'w') as csv_file:
+	with io.open(DATA_file, 'w') as csv_file:
 		field_names = ['Probability', 'Minimum Number of Teams', 'CPU Time', 'Satisfiability']
 		csv_writer = csv.writer(csv_file)
 		csv_writer.writerow(field_names)
 	csv_file.close()
 	
-	for i in range(1,9):
+	for i in range(1,10):
 		for j in range(run):
 			probability = i/10
 			global p
