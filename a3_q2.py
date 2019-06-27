@@ -14,7 +14,7 @@ import io # for writing data
 CNF_file_name = 'sat-ice.txt'
 SAT_output_file_name = 'out-ice.txt'
 DATA_file = 'data-ice.csv'
-n = 20 # define the number of nodes in friendship graph
+n = 12 # define the number of nodes in friendship graph
 p = 0.0
 run = 10
 
