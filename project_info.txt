@@ -1,0 +1,4 @@
+Name: Liam Ling
+Project: Connect 4
+Language: python 3
+Libraries: random, numpy, sys, re, time
