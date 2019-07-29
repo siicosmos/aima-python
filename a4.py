@@ -233,6 +233,8 @@ class monte_carlo_tree_node:
 		self.number_visits += 1
 		if game_result == 1:
 			self.number_wins += 1
+		elif game_result == 0:
+			self.number_wins += 0.5
 
 class monte_carlo_tree_search:
 	"""docstring for monte_carlo_tree_search"""
@@ -249,6 +251,8 @@ class monte_carlo_tree_search:
 
 	def win_rate(self):
 		win_rate_lambda = lambda x: x.number_wins / x.number_visits
+		for i in self.root.children:
+			print(i.number_wins, i.number_visits)
 		win_rate_sorted = list(zip(sorted(self.root.children, key = win_rate_lambda)[::-1], sorted(list(map(win_rate_lambda, self.root.children)))[::-1]))
 
 		print('Win rate statistic from AI:')
