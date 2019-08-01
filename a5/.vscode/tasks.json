@@ -1,0 +1,44 @@
+{
+    "tasks": [
+        {
+            "label": "g++ build Connect 4 Game",
+            "type": "shell",
+            "command": "g++",
+            "args": ["-g","-std=c++17","./obj/MonteCarloTreeSearch.o", "./obj/main.o", "./obj/Connect4.o", "-o", "Connect4Game.out"],
+            "options": {
+                "cwd": "${workspaceRoot}/"
+            },
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        },
+        {
+            "label": "g++ clean Connect 4 Game",
+            "type": "shell",
+            "command": "make",
+            "args": ["clean"],
+            "options": {
+                "cwd": "${workspaceRoot}/"
+            },
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        },
+        {
+            "label": "g++ build obj Connect 4 Game",
+            "type": "shell",
+            "command": "make",
+            "args": ["obj"],
+            "options": {
+                "cwd": "${workspaceRoot}/"
+            },
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        }
+    ],
+    "version": "2.0.0"
+}
